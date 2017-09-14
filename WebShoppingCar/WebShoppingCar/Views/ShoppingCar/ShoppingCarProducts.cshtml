@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebShoppingCar.Models.ProductViewModel>
+
+@{
+    ViewBag.Title = "ShoppingCarProducts";
+    Layout = "";
+}
+
+<h2 style="color:lightgrey">Products</h2>
+<br />
+<div class="row">
+    @{ string group = "";}
+    @foreach (var p in Model)
+    {
+        if (p.ProductGroup != group)
+        {
+            group = p.ProductGroup;
+            <div class="col-md-4">
+                <fieldset class="well">
+                    <legend>@group</legend>
+                    <div class="row">
+                        @foreach (var p1 in Model.Where(x => x.ProductGroup == group))
+                        {
+                            <div class="row">
+                                <div class="col-sm-4" align="left">
+                                    @Html.CheckBoxFor(i => p.ProductBuy, new { @id = string.Format("check_{0}", p.ProductName), @style = "margin-right:5px;" })
+                                </div>
+
+                                <div class="col-sm-4" align="center">
+                                    @Html.DisplayFor(i => p.ProductName, new { @id = string.Format("display_{0}", p.ProductName) });
+                                </div>
+
+                                <div class="col-sm-4" align="right" s>
+                                    @Html.TextBoxFor(i => p.ProductAmt, new { type = "number", min = "0", max = "30", @id = string.Format("numberText_{0}", p.ProductName), @style = "margin-left:10px;" })
+                                </div>
+                            </div>
+
+                            <br />
+                        }
+                    </div>
+                </fieldset>
+            </div>
+        }
+    }
+</div>

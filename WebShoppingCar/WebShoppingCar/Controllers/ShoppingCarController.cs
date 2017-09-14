@@ -10,7 +10,25 @@ namespace WebShoppingCar.Controllers
     public class ShoppingCarController : Controller
     {
         // GET: ShoppingCar
-        public ActionResult Index()
+        public ActionResult ShoppingCar()
+        {
+            ShoppingCarViewModel data = new ShoppingCarViewModel { pList = ProductList() };
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult ShoppingCar(ShoppingCarViewModel data, List<ProductViewModel> pList)
+        {
+            if (ModelState.IsValid)
+            {
+                return View();
+            }
+
+            return View(data);
+        }
+
+        private List<ProductViewModel> ProductList()
         {
             List<ProductViewModel> products = new List<ProductViewModel>();
 
@@ -86,33 +104,7 @@ namespace WebShoppingCar.Controllers
                 ProductAmt = 0,
                 ProductBuy = false
             });
-            products.Add(new ProductViewModel
-            {
-                ProductName = "商品J",
-                ProductGroup = "商品丙區",
-                ProductPrice = 500,
-                ProductAmt = 0,
-                ProductBuy = false
-            });
-            products.Add(new ProductViewModel
-            {
-                ProductName = "商品K",
-                ProductGroup = "商品丙區",
-                ProductPrice = 500,
-                ProductAmt = 0,
-                ProductBuy = false
-            });
-            products.Add(new ProductViewModel
-            {
-                ProductName = "商品L",
-                ProductGroup = "商品丙區",
-                ProductPrice = 500,
-                ProductAmt = 0,
-                ProductBuy = false
-            });
-
-
-            return View(products);
+            return products;
         }
     }
 }

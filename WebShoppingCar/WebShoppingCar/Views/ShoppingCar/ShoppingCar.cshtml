@@ -1,0 +1,61 @@
+﻿@model WebShoppingCar.Models.ShoppingCarViewModel
+
+@{
+    ViewBag.Title = "ShoppingCar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h2>Shopping Car</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(i => i.BuyerName)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(i => i.BuyerName, new { @id = string.Format("textBox_BuyerName"), @class = "form-control" })
+                @Html.ValidationMessageFor(i => i.BuyerName, "", new { @id = string.Format("valid_BuyerName"), @class = "text-danger" })
+            </div>
+            @*@Html.ValidationMessageFor(i => i.BuyerName, "", new { @id = string.Format("valid_BuyerName"), Name = "valid.BuyerName", @class = "text-danger" })*@
+        </div>
+    </div>
+
+    @Html.Partial("ShoppingCarProducts", Model.pList)
+
+    <div class="row">
+        @Html.LabelFor(i => i.DeliverDate, new { @class = "col-md-6 col-sm-6", @align = "right", @style = "margin-top:5px;" })
+        @Html.EditorFor(i => i.DeliverDate)
+        @Html.ValidationMessageFor(i => i.DeliverDate, "", new { @class = "text-danger", @id = string.Format("valid_DeliverDate") })
+    </div>
+
+    <div class="row col-lg-12" align="center">
+        <input id="submit" type="submit" value="送出" class="form-control">
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $("#submit").click(function () {
+            var amtList = document.getElementsByName('p.ProductAmt');
+
+            var sum = 0;
+
+            for (var i= 0; i < amtList.length; i++){
+                sum = parseInt(amtList[i].value) + sum;
+            }
+
+            if (sum >= 30) {
+                alert("購買商品數必須在30個以內");
+            }
+        });
+
+    </script>
+}
